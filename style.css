@@ -1,0 +1,42 @@
+table {
+    display: table;
+    border-spacing: 2px;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: 0;
+    width:50%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+th{
+    font-size: larger;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+img{
+    width: 100px;
+    border-radius: 120px;
+}
+
+input[type=text], input[type=submit] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid red;
+}
+
+
+form{
+    width:50%;
+    border: solid 1px grey;
+}
+form label{
+    font-size: larger;
+}
