@@ -4,7 +4,7 @@ table {
     border-collapse: separate;
     box-sizing: border-box;
     text-indent: 0;
-    width:50%;
+    width:100%;
 }
 
 th, td {
@@ -39,4 +39,31 @@ form{
 }
 form label{
     font-size: larger;
+}
+ul.nav-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li.nav-list {
+    float: left;
+}
+
+li.nav-list a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li.nav-list a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #04AA6D;
 }

@@ -2,6 +2,23 @@
 require ('conf.php');
 
 global $yhendus;
+//kuvamine
+if(isSet($_REQUEST["kuva_id"])){
+    $paring=$yhendus->prepare("UPDATE fotokonkurss SET avalik=1 WHERE id=?");
+    $paring->bind_param("i", $_REQUEST["kuva_id"]);
+    $paring->execute();
+    header("Location:$_SERVER[PHP_SELF]");
+}
+
+//peitmine
+if(isSet($_REQUEST["peida_id"])){
+    $paring=$yhendus->prepare("UPDATE fotokonkurss SET avalik=0 WHERE id=?");
+    $paring->bind_param("i", $_REQUEST["peida_id"]);
+    $paring->execute();
+    header("Location:$_SERVER[PHP_SELF]");
+}
+
+
 //delete
 if(isSet($_REQUEST["kustuta"])){
     $paring=$yhendus->prepare("Delete from fotokonkurss WHERE id=?");
@@ -50,25 +67,20 @@ VALUES (?, ?, ?, NOW())");
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Fotokonkurss</h1>
-<h2>Foto lisamine hääletamisele</h2>
-<form action="?" method="post">
-    <label for="nimetus">FotoNimetus</label>
-    <input type="text" id="nimetus" name="nimetus" placeholder="Kirjuta ilus fotonimetus">
-    <br>
-    <label for="autor">Autor</label>
-    <input type="text" id="autor" name="autor" placeholder="Autori nimi">
-    <br>
-    <label for="pilt">Pildifoto</label>
-    <textarea name="pilt" id="pilt" cols="30" rows="10">
-        Kopeeri kujutise aadress
-    </textarea>
-    <br>
-    <input type="submit" value="Lisa">
-
-</form>
-
-
+<header>
+    <h1>Fotokonkurss</h1>
+</header>
+<nav>
+    <ul class="nav-menu">
+        <li class="nav-list">
+            <a href="fotoKonkurss.php">Adminileht</a>
+        </li>
+        <li class="nav-list">
+            <a href="fotoKonkurss2.php">Kasutaja leht</a>
+        </li>
+    </ul>
+</nav>
+<main>
 <table>
     <tr>
         <th>Foto nimetus</th>
@@ -81,8 +93,8 @@ VALUES (?, ?, ?, NOW())");
     <?php
     global $yhendus;
     //ab tabeli kuvamine lehel
-    $paring=$yhendus->prepare('SELECT id, fotoNimetus, pilt, autor, punktid, lisamisAeg, kommentaarid from fotokonkurss');
-    $paring->bind_result($id, $fotoNimetus, $pilt, $autor, $punktid, $aeg, $kommentaarid);
+    $paring=$yhendus->prepare('SELECT id, fotoNimetus, pilt, autor, punktid, lisamisAeg, kommentaarid, avalik from fotokonkurss');
+    $paring->bind_result($id, $fotoNimetus, $pilt, $autor, $punktid, $aeg, $kommentaarid, $avalik);
     $paring->execute();
     while($paring->fetch()){
         echo "<tr>";
@@ -99,17 +111,54 @@ VALUES (?, ?, ?, NOW())");
 </form></td>";
         echo "<td><a href='?lisa1punkt=$id'>+1 punkt</a></td>";
         echo "<td><a href='?kustuta=$id'>xxx</a></td>";
+        $tekst="Näita";
+        $avaparametr="kuva_id";
+        $seis="Peidetud";
+        if($avalik==1){
+            $tekst="Peida";
+            $avaparametr="peida_id";
+            $seis="Kuvatud";
+        }
+        echo "<td><a href='?$avaparametr=$id'>$tekst</a></td>";
+        echo "<td>$seis</td>";
         echo "</tr>";
     }
    ?>
 </table>
+<h2>Foto lisamine hääletamisele</h2>
+<form action="?" method="post">
+    <label for="nimetus">FotoNimetus</label>
+    <input type="text" id="nimetus" name="nimetus" placeholder="Kirjuta ilus fotonimetus">
+    <br>
+    <label for="autor">Autor</label>
+    <input type="text" id="autor" name="autor" placeholder="Autori nimi">
+    <br>
+    <label for="pilt">Pildifoto</label>
+    <textarea name="pilt" id="pilt" cols="30" rows="10">
+        Kopeeri kujutise aadress
+    </textarea>
+    <br>
+    <input type="submit" value="Lisa">
+</form>
+</main>
+<footer>
+    leht tegi õpetaja
+</footer>
 <?php
 $yhendus->close();/*
 * Ülesanne.
 1. Näita php lehel ainult fotoNimetused
 2. Kui klickida fotoNimetusel siis kuvatakse info: pilt, punktid, kommentaarid jne,
-punktid ja kommentaarid saab lisada ja kustutada ka.*/
-?>
+punktid ja kommentaarid saab lisada ja kustutada ka.
+------------------
+3. Admin leht võimaldab - Näita/Peida, rida Kustutamine, Kommentaari kustutamine, Punktid Nulliks
+4. Kasutaja leht - näitab fotoNimetused ühe kaupa ja kui klickida fotoNimetusel,
+siis saab lisada +1p, -1p, kommentaarid
+5. foto Lisamine konkurssi - tee eraldi leht
 
+
+
+*/
+?>
 </body>
 </html>
