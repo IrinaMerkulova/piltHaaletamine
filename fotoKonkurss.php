@@ -1,3 +1,4 @@
+<?php if (isset($_GET['code'])) {die(highlight_file(__FILE__, 1));}?>
 <?php
 require ('conf.php');
 
@@ -155,6 +156,9 @@ punktid ja kommentaarid saab lisada ja kustutada ka.
 4. Kasutaja leht - näitab fotoNimetused ühe kaupa ja kui klickida fotoNimetusel,
 siis saab lisada +1p, -1p, kommentaarid
 5. foto Lisamine konkurssi - tee eraldi leht
+6. -1punkt ei lähe miinus punktiks
+7. kui tuleb kustutada terve rida, siis käivitakse dialoogaken- kas kindlasti soovid kustutada?
+https://github.com/IrinaMerkulova/piltHaaletamine
 
 
 
